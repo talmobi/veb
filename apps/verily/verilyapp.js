@@ -31,9 +31,11 @@ var VERILY = (function () {
 	var ratio = window.innerHeight / window.innerWidth;
 
 	var stage = new c.Stage(canvas);
+	var smartphone = false;
 	var fps = 40;
 	if (window.innerHeight < 480) { // assume it's a smartphone
 		fps = 20;
+		smartphone = true;
 	}
 	createjs.Ticker.setFPS(fps);
 	createjs.Ticker.addEventListener('tick', tick);
@@ -104,9 +106,18 @@ var VERILY = (function () {
 
 		var hit = new createjs.Shape()
 		var es = eiconScale;
+		var w = eicon.width;
+		var h = eicon.height;
 		hit.graphics.beginFill("#000")
-				.drawRect(-eicon.width / 2, -eicon.height / 2, eicon.width * es, eicon.height * es);
+				.drawRect(-w / 2, -h / 2, w * es, h * es);
+		if (smartphone) { // increate click area for smartphones
+			var w = eicon.width * 5;
+			var h = eicon.height * 5;
+			hit.graphics.beginFill("#000")
+				.drawRect(-w / 2, -h / 2, w * es, h * es);
+		}
 		eicon.hitArea = hit;
+
 
 		eicon.addEventListener('mouseover', function() {
 			//console.log("OVER");
