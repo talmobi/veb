@@ -31,7 +31,11 @@ var VERILY = (function () {
 	var ratio = window.innerHeight / window.innerWidth;
 
 	var stage = new c.Stage(canvas);
-	createjs.Ticker.setFPS(50);
+	var fps = 40;
+	if (window.innerHeight < 480) { // assume it's a smartphone
+		fps = 20;
+	}
+	createjs.Ticker.setFPS(fps);
 	createjs.Ticker.addEventListener('tick', tick);
 	function tick() {
 		stage.update();
