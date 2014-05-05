@@ -133,7 +133,7 @@ var VERILY = (function () {
 				position: 'absolute',
 				marginLeft: 0, marginTop: 0,
 				top: yy, left: xx
-			}).appendto('body');
+			}).appendTo('body');
 
 		}
 
