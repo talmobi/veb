@@ -1,9 +1,9 @@
-a .icon {
+div a .icon {
     position: relative;
     -webkit-transition: all 0.5s ease-out 0.2s;
 }
 
-a .icon:hover {
+div a .icon:hover {
     -webkit-transform: rotate(-360deg);
     -moz-transform: rotate(-360deg);
     -o-transform: rotate(-360deg);
