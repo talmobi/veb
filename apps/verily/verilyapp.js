@@ -98,51 +98,8 @@ var VERILY = (function () {
 		kave.y = window.innerHeight - kave.height * g_scale;
 		stage.addChild(kave);
 
-		var eiconScale = 1.5;
-		eicon = createImage( queue.getResult("emailicon"), eiconScale);
-		eicon.x = window.innerWidth / 6;
-		eicon.y = window.innerHeight;
-		stage.addChild(eicon);
-
-		var hit = new createjs.Shape()
-		var es = eiconScale;
-		var w = eicon.width;
-		var h = eicon.height;
-		hit.graphics.beginFill("#000")
-				.drawRect(-w / 2, -h / 2, w * es, h * es);
-		if (mobile) { // increate click area for mobiles
-			var w = eicon.width * 5;
-			var h = eicon.height * 5;
-			hit.graphics.beginFill("#000")
-				.drawRect(-w / 2, -h / 2, w * es, h * es);
-		}
-		eicon.hitArea = hit;
-
-
-		eicon.addEventListener('mouseover', function() {
-			//console.log("OVER");
-			createjs.Tween.get(eicon)
-									.to({scaleX: g_scale * eiconScale * 1.5, scaleY: g_scale * eiconScale * 1.5}, 500, createjs.Ease.bounceOut);
-
-			// trigger click event here for mobiles
-			if (mobile) {
-				window.open('https://verilyeb.wufoo.com/forms/z132vnqs1nksymx/',  
-					null, 'height=window.innerHeight, width=window.innerWidth');
-			}
-		});
-
-		eicon.addEventListener('mouseout', function() {
-			//console.log("OUT");
-			createjs.Tween.get(eicon)
-									.to({scaleX: g_scale * eiconScale, scaleY: g_scale * eiconScale}, 500, createjs.Ease.bounceOut);
-		});
-
-		eicon.addEventListener("click", function() {
-			if (!mobile) {
-				$('#emaillink')[0].click();
-			}
-		});
-
+		var footer = $('#Footer');
+		footer.hide();
 
 		/**
 			* Tweening
@@ -168,11 +125,16 @@ var VERILY = (function () {
 			createjs.Tween.get(kave).wait(100)
 									.to({alpha:1}, 2200);
 			
-			createjs.Tween.get(eicon).wait(3000)
-									.to({alpha:1}, 2000);
+			
+			var xx = window.innerWidth / 6;
+			var yy = info.y + window.innerHeight / 10;
 
-			createjs.Tween.get(eicon).wait(3000)
-									.to({y:info.y + eicon.height * 3 * g_scale}, 2000, createjs.Ease.bounceOut);
+			footer.delay(2000).fadeIn(2000).css({
+				position: 'absolute',
+				marginLeft: 0, marginTop: 0,
+				top: yy, left: xx
+			}).appendto('body');
+
 		}
 
 		/**
