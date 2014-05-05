@@ -155,7 +155,7 @@ var VERILY = (function () {
 		/**
 			* Start the animations
 			*/
-		phaseThree();
+		phaseOne();
 		c.Sound.play("introsound");
 	}
 
