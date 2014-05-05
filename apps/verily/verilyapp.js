@@ -126,7 +126,8 @@ var VERILY = (function () {
 
 			// trigger click event here for mobiles
 			if (mobile) {
-				$('#emaillink')[0].click();
+				window.open('https://verilyeb.wufoo.com/forms/z132vnqs1nksymx/',  
+					null, 'height=window.innerHeight, width=window.innerWidth');
 			}
 		});
 
