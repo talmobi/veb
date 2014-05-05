@@ -2,8 +2,8 @@ var VERILY = (function () {
 
 	var loaded = false;
 	var manifest = [
-		{ id: "intro1", src: "assets/art/intro1.png"},
-		{ id: "introsound", src: "assets/snd/verilyebintro.mp3"}
+		{ id: "intro1", src: "apps/verily/assets/art/intro1.png" },
+		{ id: "introsound", src: "apps/verily/assets/snd/verilyebintro.mp3" }
 	]
 	var queue = new createjs.LoadQueue();
 	queue.installPlugin(createjs.Sound);
@@ -39,16 +39,20 @@ var VERILY = (function () {
 
 		var stage = new c.Stage(canvas);
 
+		console.log(queue);
+		console.log(queue.getResult("intro1"));
+
+		var shape = new c.Shape();
+		shape.graphics.setStrokeStyle(3)
+			.beginStroke("green")
+			.rect(1, 1, canvas.width -1 , canvas.height - 1);
+		stage.addChild(shape);
+
 		c.Sound.play("introsound");
 		var bm = new c.Bitmap(queue.getResult("intro1"));
-
+		bm.regX = 50;
+		bm.regY = 50;
 		stage.addChild(bm);
-
-		var text = new c.Text("Hello World", "20px Arial", "#ff7700");
-		text.textBaseline = "alphabetic";
-
-
-		stage.addChild(text);
 
 		function tick() {
 			stage.update();
