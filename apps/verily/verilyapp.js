@@ -1,6 +1,8 @@
 var VERILY = (function () {
 
-	var loaded = false;
+	/**
+		*	Preload Assets
+		*/
 	var manifest = [
 		{ id: "intro1", src: "apps/verily/assets/art/intro1.png" },
 		{ id: "intro1_sub", src: "apps/verily/assets/art/intro1_sub.png" },
@@ -12,55 +14,47 @@ var VERILY = (function () {
 	queue.installPlugin(createjs.Sound);
 	queue.on("complete", function() {
 		console.log("Assets loaded.");
-		loaded = true;
 		playintro();
 	});
 	queue.loadManifest( manifest );
 
-	function load(next) {
-		if (!loaded) {
-			loaded = true;
+	/**
+		* Initialize the Stage
+		*/
+	var c = createjs;
+	var canvas = $('#intro_canvas')[0];
+
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
+
+	var ratio = window.innerHeight / window.innerWidth;
+
+	var stage = new c.Stage(canvas);
+	createjs.Ticker.setFPS(50);
+	createjs.Ticker.addEventListener('tick', stage);
 
 
-
-		} else {
-			next();
-		}
-	}
-
-	function playintro(canvas) {
+	function playintro() {
 		console.log("Playing Intro");
-
-		/**
-			*	Initialization
-			*/
-		var c = createjs;
-		var canvas = canvas || $('#intro_canvas')[0];
-
-		canvas.width = window.innerWidth;
-		canvas.height = window.innerHeight;
-
-		var ratio = window.innerHeight / window.innerWidth;
-
-		var stage = new c.Stage(canvas);
 
 		// border
 		var shape = new c.Shape();
 		shape.graphics.setStrokeStyle(3)
-			.beginStroke("green")
+			.beginStroke("black")
 			.rect(1, 1, canvas.width -1 , canvas.height - 1);
 		stage.addChild(shape);
 
-
 		c.Sound.play("introsound");
 		var img = queue.getResult("intro1");
-		console.log(img.width);
 
-		var bm = new c.Bitmap(img);
-
+		/**
+			*	Calculate approapriate scale according to verilyeb.com page
+			*/
 		var scale =  (window.innerWidth / img.width) * 0.6;
 		if (scale >= 1)
 			scale = 1;
+
+		var bm = new c.Bitmap(img);
 
 		bm.regX = img.width / 2;
 		bm.regY = img.height / 2;
@@ -86,9 +80,7 @@ var VERILY = (function () {
 									.wait(200)
 									.to({alpha:1, scaleX:scale, scaleY:scale}, 2500)
 
-		// ticker
-		createjs.Ticker.setFPS(60);
-		createjs.Ticker.addEventListener("tick", tick);
+	
 
 	}
 
