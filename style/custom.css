@@ -1,11 +1,12 @@
-div a .icon {
+a .icon {
     position: relative;
     -webkit-transition: all 0.5s ease-out 0.2s;
 }
 
-div a .icon:hover {
+a .icon:hover {
     -webkit-transform: rotate(-360deg);
     -moz-transform: rotate(-360deg);
     -o-transform: rotate(-360deg);
     transform: rotate(-360deg);
+    transform: scale(1.5);
 }
