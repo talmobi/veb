@@ -31,11 +31,11 @@ var VERILY = (function () {
 	var ratio = window.innerHeight / window.innerWidth;
 
 	var stage = new c.Stage(canvas);
-	var smartphone = false;
+	var mobile = false;
 	var fps = 40;
-	if (window.innerHeight < 480) { // assume it's a smartphone
+	if (window.innerHeight < 480) { // assume it's a mobile
 		fps = 20;
-		smartphone = true;
+		mobile = true;
 	}
 	createjs.Ticker.setFPS(fps);
 	createjs.Ticker.addEventListener('tick', tick);
@@ -110,7 +110,7 @@ var VERILY = (function () {
 		var h = eicon.height;
 		hit.graphics.beginFill("#000")
 				.drawRect(-w / 2, -h / 2, w * es, h * es);
-		if (smartphone) { // increate click area for smartphones
+		if (mobile) { // increate click area for mobiles
 			var w = eicon.width * 5;
 			var h = eicon.height * 5;
 			hit.graphics.beginFill("#000")
@@ -123,6 +123,11 @@ var VERILY = (function () {
 			//console.log("OVER");
 			createjs.Tween.get(eicon)
 									.to({scaleX: g_scale * eiconScale * 1.5, scaleY: g_scale * eiconScale * 1.5}, 500, createjs.Ease.bounceOut);
+
+			// trigger click event here for mobiles
+			if (mobile) {
+				$('#emaillink')[0].click();
+			}
 		});
 
 		eicon.addEventListener('mouseout', function() {
@@ -132,7 +137,9 @@ var VERILY = (function () {
 		});
 
 		eicon.addEventListener("click", function() {
-			$('#emaillink')[0].click();
+			if (!mobile) {
+				$('#emaillink')[0].click();
+			}
 		});
 
 
