@@ -1,4 +1,5 @@
 var VERILY = (function () {
+	var initialized = false;
 
 	/**
 		*	Preload Assets
@@ -13,10 +14,18 @@ var VERILY = (function () {
 	]
 	var queue = new createjs.LoadQueue(false);
 	queue.installPlugin(createjs.Sound);
+
 	queue.on("complete", function() {
+		initialized = true;
+
 		console.log("Assets loaded.");
-		playintro();
+		if (initialized) {
+			playintro();
+
+
+		}
 	});
+
 	queue.loadManifest( manifest );
 
 	/**
@@ -38,10 +47,7 @@ var VERILY = (function () {
 		mobile = true;
 	}
 	createjs.Ticker.setFPS(fps);
-	createjs.Ticker.addEventListener('tick', tick);
-	function tick() {
-		stage.update();
-	}
+	createjs.Ticker.addEventListener('tick', stage);
 
 	function playintro() {
 		console.log("Playing Intro");
@@ -144,10 +150,13 @@ var VERILY = (function () {
 		c.Sound.play("introsound");
 	}
 
-
 	return {
 		playintro: function() {
 			playintro();
+		},
+
+		init: function() {
+			init();
 		}
 	}
 })(); 
