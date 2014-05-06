@@ -34,6 +34,10 @@ var VERILY = (function () {
 					msg.innerHTML = "click";
 					c.Sound.play("introsound");
 
+					if (!createjs.Sound.initializeDefaultPlugins()) {
+						msg.innerHTML = "this device can't play sound.";
+					}
+
 					try {
 						c.Sound.play("introsound");
 					} catch (e) {
