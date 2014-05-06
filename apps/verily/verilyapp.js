@@ -30,9 +30,9 @@ var VERILY = (function () {
 				var msg = document.getElementById('enter_message');
 
 				msg.addEventListener('click', function() {
-					playintro();
 					c.Sound.play("introsound");
 					msg.innerHTML = "Playing with: " + createjs.Sound.activePlugin.toString();
+					playintro();
 				}, false);
 				msg.innerHTML = "Touch to Enter"
 			}
