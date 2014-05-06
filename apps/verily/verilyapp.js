@@ -15,13 +15,26 @@ var VERILY = (function () {
 	var queue = new createjs.LoadQueue(false);
 	queue.installPlugin(createjs.Sound);
 
+	/**
+		*	Asset loading complete
+		*/
 	queue.on("complete", function() {
 		initialized = true;
 
 		console.log("Assets loaded.");
 		if (initialized) {
-			playintro();
 
+			if (!mobile) {
+				playintro();
+			} else {
+				var msg = document.getElementById('enter_message');
+
+				msg.addEventListener('click', function() {
+					msg.innerHTML = "";
+					playintro();
+				}, false);
+				msg.innerHTML = "Touch to Enter"
+			}
 
 		}
 	});
@@ -42,7 +55,7 @@ var VERILY = (function () {
 	var stage = new c.Stage(canvas);
 	var mobile = false;
 	var fps = 40;
-	if (window.innerHeight < 480) { // assume it's a mobile
+	if (window.innerWidth < 480 * 2 || window.innerHeight < 480) { // assume it's a mobile
 		fps = 20;
 		mobile = true;
 	}
