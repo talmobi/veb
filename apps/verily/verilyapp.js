@@ -18,6 +18,7 @@ var VERILY = (function () {
 	/**
 		*	Asset loading complete
 		*/
+	var audioclip = document.getElementById('audioclip');
 	queue.on("complete", function() {
 		initialized = true;
 
@@ -26,20 +27,24 @@ var VERILY = (function () {
 
 			if (!mobile) {
 				//c.Sound.play("introsound");
-				document.getElementById('audioclip').play();
+				audioclip.play();
 				playintro();
 			} else {
-				var msg = $('#enter_message')[0];
+				var msg = document.getElementById('enter_message')
 
 					msg.addEventListener('click', function() {
 						msg.innerHTML = "click - playing sound";
 						//c.Sound.play("introsound");
-						document.getElementById('audioclip').play();
+						audioclip.muted = true;
+						audioclip.play();
+						audioclip.pause();
 
-
-						if (!createjs.Sound.initializeDefaultPlugins()) {
-							msg.innerHTML = "this device can't play sound.";
-						}
+						setTimeout(function() {
+							var audioclip = document.getElementById('audioclip');
+							audioclip.muted = false;
+							audioclip.play();
+							playintro();
+						}, 500);
 
 					}, false);
 
@@ -50,11 +55,6 @@ var VERILY = (function () {
 	});
 
 	queue.loadManifest( manifest );
-
-	var audioclip = document.getElementById('audioclip');
-	/*audioclip.oncanplay = function () {
-		playintro();
-	};*/
 
 	/**
 		* Initialize the Stage
