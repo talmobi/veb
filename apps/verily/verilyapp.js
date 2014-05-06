@@ -33,16 +33,16 @@ var VERILY = (function () {
 					var err = "";
 					try {
 						c.Sound.play("introsound");
-					} catch (e) {
-						err = e.message;
-					}
 
 					msg.innerHTML = "Playing with: " + 
 													createjs.Sound.activePlugin.toString() + 
 													", err: " + err;
 					playintro();
+					} catch (e) {
+						msg.innerHTML = "err: " + e.message;
+					}
 				}, false);
-				msg.innerHTML = "Touch to Enter"
+				msg.innerHTML = "[Mobile] Touch to Enter"
 			}
 
 		}
@@ -64,7 +64,7 @@ var VERILY = (function () {
 	var stage = new c.Stage(canvas);
 	var mobile = false;
 	var fps = 40;
-	if (window.innerWidth < 480 * 2 || window.innerHeight < 480) { // assume it's a mobile
+	if (window.innerWidth < (480 * 2) || window.innerHeight < 480) { // assume it's a mobile
 		fps = 20;
 		mobile = true;
 	}
