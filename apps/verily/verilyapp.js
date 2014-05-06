@@ -30,11 +30,12 @@ var VERILY = (function () {
 				var msg = document.getElementById('enter_message');
 
 				msg.addEventListener('click', function() {
+					var msg = document.getElementById('enter_message');
 					var err = "";
 					try {
 						c.Sound.play("introsound");
 
-						document.getElementById('enter_message').innerHTML = "Playing with: " + 
+						msg.innerHTML = "Playing with: " + 
 													createjs.Sound.activePlugin.toString() + 
 													", err: " + err;
 					playintro();
