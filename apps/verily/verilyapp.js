@@ -35,14 +35,15 @@ var VERILY = (function () {
 					var err = "";
 					try {
 						c.Sound.play("introsound");
-
+					} catch (e) {
+						msg.innerHTML = "err: " + e;
+					}
+					
 						msg.innerHTML = "Playing with: " + 
 													createjs.Sound.activePlugin.toString() + 
 													", err: " + err;
 						playintro();
-					} catch (e) {
-						msg.innerHTML = "err: " + e;
-					}
+					
 				}, false);
 				msg.innerHTML = "[Mobile] Touch to Enter"
 			}
