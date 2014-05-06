@@ -1,5 +1,6 @@
 var VERILY = (function () {
 	var initialized = false;
+	var playing = false;
 
 	/**
 		*	Preload Assets
@@ -8,12 +9,17 @@ var VERILY = (function () {
 		{ id: "intro1", src: "apps/verily/assets/art/intro1.png" },
 		{ id: "intro1_sub", src: "apps/verily/assets/art/intro1_sub.png" },
 		{ id: "intro2", src: "apps/verily/assets/art/intro2.png" },
-		{ id: "intromusic", src: "apps/verily/assets/art/intromusic.png" },
-		{ id: "emailicon", src: "apps/verily/assets/art/emailicon.png" },
-		{ id: "introsound", src: "apps/verily/assets/snd/verilyebintro.ogg" }
+		{ id: "intromusic", src: "apps/verily/assets/art/intromusic.png" }
 	]
 	var queue = new createjs.LoadQueue(false);
 	queue.installPlugin(createjs.Sound);
+
+	/**
+		* Display the welcome message
+		*/
+	var w_div = $(".welcomeDiv")
+	var w_img = $('#welcome_image');
+	w_div.fadeIn(1600);
 
 	/**
 		*	Asset loading complete
@@ -26,33 +32,48 @@ var VERILY = (function () {
 		if (initialized) {
 
 			if (!mobile) {
-				//c.Sound.play("introsound");
-				audioclip.play();
-				playintro();
-			} else {
-				var msg = document.getElementById('enter_message')
+				var msg = document.getElementById('enter_message');
+				document.getElementById('wDivId').addEventListener('mouseover', function() {
+					if (!playing) {
+						playing = true;
 
-					msg.addEventListener('mouseover', function() {
-						msg.innerHTML = "click";
-						//c.Sound.play("introsound");
-						audioclip.muted = true;
-						audioclip.play();
-						audioclip.pause();
-						audioclip.muted = false;
 
-						function start() {
-							msg.innerHTML = "Playing."
+						function begin() {
 							audioclip.play();
 							playintro();
 						}
 
-						setTimeout(function() {
-							start();
-						}, 1000);
+						var d = $('.welcomeDiv');
+						d.fadeOut(1000);
+						d.promise().done(begin);
+					}
+				});
 
-					}, false);
-
+			} else {
+				var msg = document.getElementById('enter_message')
 				msg.innerHTML = "[Mobile] Touch to Enter"
+
+				document.getElementById('wDivId').addEventListener('click', function() {
+					if (!playing) {
+						playing = true;
+
+						function begin() {
+							audioclip.play();
+							playintro();
+						}
+
+						var d = $('.welcomeDiv');
+						d.fadeOut(1000);
+						d.promise().done(begin);
+
+						audioclip.muted = true;
+						audioclip.play();
+						audioclip.pause();
+						audioclip.muted = false;
+					}
+
+				}, false);
+
 			}
 
 		}

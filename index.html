@@ -18,8 +18,10 @@
 		<source src="video/verilyebintro.iphone.mp4" type="video/mp4" />
 	</video>
 	-->
-
-	<h1 id="enter_message"></h1>
+	<div class="welcomeDiv" id="wDivId" style="display: none">
+		<h1 id="enter_message"></h1>
+		<img src="apps/verily/assets/art/welcome.png" id="welcome_image" width="window.innerWidth">
+	</div>
 
 	<canvas id="intro_canvas"></canvas>
 
@@ -36,7 +38,7 @@
   <!-- Javascript -->
 	<script src="http://code.createjs.com/createjs-2013.12.12.min.js"></script>
 	<script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
-	<script src="apps/verily/verilyapp.js" type="text/javascript"></script>
+	<script src="apps/verily/verilyapp.min.js" type="text/javascript"></script>
 	<!-- <script src="javascript/respond.min.js"></script> -->
 </body>
 </html>

@@ -10,3 +10,10 @@ a .icon:hover {
     transform: rotate(-360deg);
     transform: scale(1.5);
 }
+
+.welcomeDiv {
+	display: block;
+	color: Black;
+	text-align: center;
+	vertical-align: middle;
+}
