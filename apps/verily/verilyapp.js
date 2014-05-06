@@ -27,10 +27,10 @@ var VERILY = (function () {
 			if (!mobile) {
 				playintro();
 			} else {
-				var msg = document.getElementById('enter_message');
+				var msg = $('#enter_message');
 
 				msg.addEventListener('click', function() {
-					var msg = document.getElementById('enter_message');
+					var msg = $('#enter_message');
 					var err = "";
 					try {
 						c.Sound.play("introsound");
