@@ -10,7 +10,7 @@ var VERILY = (function () {
 		{ id: "intro2", src: "apps/verily/assets/art/intro2.png" },
 		{ id: "intromusic", src: "apps/verily/assets/art/intromusic.png" },
 		{ id: "emailicon", src: "apps/verily/assets/art/emailicon.png" },
-		{ id: "introsound", src: "apps/verily/assets/snd/verilyebintro.mp3" }
+		{ id: "introsound", src: "apps/verily/assets/snd/verilyebintro.ogg" }
 	]
 	var queue = new createjs.LoadQueue(false);
 	queue.installPlugin(createjs.Sound);
@@ -31,18 +31,18 @@ var VERILY = (function () {
 				var msg = $('#enter_message')[0];
 
 				msg.addEventListener('click', function() {
-					msg.innerHTML = "click";
+					msg.innerHTML = "click - playing sound";
 					c.Sound.play("introsound");
 
 					if (!createjs.Sound.initializeDefaultPlugins()) {
 						msg.innerHTML = "this device can't play sound.";
 					}
 
-					try {
+					/*try {
 						c.Sound.play("introsound");
 					} catch (e) {
 						msg.innerHTML = "err: " + e || 'unknown error';
-					}
+					}*/
 
 				}, false);
 
