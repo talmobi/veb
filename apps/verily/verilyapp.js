@@ -25,6 +25,7 @@ var VERILY = (function () {
 		if (initialized) {
 
 			if (!mobile) {
+				c.Sound.play("introsound");
 				playintro();
 			} else {
 				var msg = $('#enter_message')[0];
@@ -38,7 +39,7 @@ var VERILY = (function () {
 						msg.innerHTML = "Playing with: " + 
 													createjs.Sound.activePlugin.toString() + 
 													", err: " + err;
-					playintro();
+						playintro();
 					} catch (e) {
 						msg.innerHTML = "err: " + e;
 					}
@@ -73,11 +74,17 @@ var VERILY = (function () {
 	createjs.Ticker.addEventListener('tick', stage);
 
 	function init() {
-		
+
 	}
 
 	function playintro() {
 		console.log("Playing Intro");
+
+		/**
+			* reset the stage
+			*/
+		stage.removeAllChildren();
+		stage.update();
 
 		// border
 		/*var shape = new c.Shape();
@@ -174,7 +181,7 @@ var VERILY = (function () {
 			* Start the animations
 			*/
 		phaseOne();
-		c.Sound.play("introsound");
+		//c.Sound.play("introsound");
 	}
 
 	return {
