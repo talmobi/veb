@@ -31,20 +31,17 @@ var VERILY = (function () {
 				var msg = $('#enter_message')[0];
 
 				msg.addEventListener('click', function() {
-					var msg = $('#enter_message')[0];
-					var err = "";
+					msg.innerHTML = "click";
+					c.Sound.play("introsound");
+
 					try {
 						c.Sound.play("introsound");
 					} catch (e) {
-						msg.innerHTML = "err: " + e;
+						msg.innerHTML = "err: " + e || 'unknown error';
 					}
-					
-						msg.innerHTML = "Playing with: " + 
-													createjs.Sound.activePlugin.toString() + 
-													", err: " + err;
-						playintro();
-					
+
 				}, false);
+
 				msg.innerHTML = "[Mobile] Touch to Enter"
 			}
 
