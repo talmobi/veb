@@ -32,6 +32,7 @@ var VERILY = (function () {
 				msg.addEventListener('click', function() {
 					msg.innerHTML = "";
 					playintro();
+					c.Sound.play("introsound");
 				}, false);
 				msg.innerHTML = "Touch to Enter"
 			}
