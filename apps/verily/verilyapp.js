@@ -32,7 +32,7 @@ var VERILY = (function () {
 			} else {
 				var msg = document.getElementById('enter_message')
 
-					msg.addEventListener('click', function() {
+					msg.addEventListener('mouseover', function() {
 						msg.innerHTML = "click";
 						//c.Sound.play("introsound");
 						audioclip.muted = true;
