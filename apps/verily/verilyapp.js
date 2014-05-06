@@ -15,11 +15,23 @@ var VERILY = (function () {
 	queue.installPlugin(createjs.Sound);
 
 	/**
+		* Some initial values
+		*/
+	var mobile = false;
+	var fps = 40;
+	if (window.innerWidth < 480 || window.innerHeight < 480) { // assume it's a mobile
+		fps = 20;
+		mobile = true;
+	}
+
+	/**
 		* Display the welcome message
 		*/
 	var w_div = $(".welcomeDiv")
+	if (!mobile)
+		w_div.css({'margin-top': '100px'});
 	var w_img = $('#welcome_image');
-	w_div.fadeIn(1600);
+	w_div.fadeIn(2000);
 
 	/**
 		*	Asset loading complete
@@ -32,7 +44,8 @@ var VERILY = (function () {
 		if (initialized) {
 
 			if (!mobile) {
-				var msg = document.getElementById('enter_message');
+				$('#wDivId').css({'margin-top': '100px'});
+
 				document.getElementById('wDivId').addEventListener('mouseover', function() {
 					if (!playing) {
 						playing = true;
@@ -50,8 +63,9 @@ var VERILY = (function () {
 				});
 
 			} else {
-				var msg = document.getElementById('enter_message')
-				msg.innerHTML = "[Mobile] Touch to Enter"
+				var msg = $('#enter_message');
+				msg[0].innerHTML = "[Mobile] Touch to Enter"
+				msg.slideDown(2000);
 
 				document.getElementById('wDivId').addEventListener('click', function() {
 					if (!playing) {
@@ -93,12 +107,7 @@ var VERILY = (function () {
 	var ratio = window.innerHeight / window.innerWidth;
 
 	var stage = new c.Stage(canvas);
-	var mobile = false;
-	var fps = 40;
-	if (window.innerWidth < (480 * 2) || window.innerHeight < 480) { // assume it's a mobile
-		fps = 20;
-		mobile = true;
-	}
+	
 	createjs.Ticker.setFPS(fps);
 	createjs.Ticker.addEventListener('tick', stage);
 
