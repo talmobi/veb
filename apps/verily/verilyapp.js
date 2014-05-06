@@ -64,8 +64,8 @@ var VERILY = (function () {
 
 			} else {
 				var msg = $('#enter_message');
-				msg[0].innerHTML = "[Mobile] Touch to Enter"
-				msg.slideDown(2000);
+				msg[0].innerHTML = ""
+				msg.slideDown(1);
 
 				document.getElementById('wDivId').addEventListener('click', function() {
 					if (!playing) {
