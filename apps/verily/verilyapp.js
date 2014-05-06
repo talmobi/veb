@@ -34,12 +34,12 @@ var VERILY = (function () {
 					try {
 						c.Sound.play("introsound");
 
-					msg.innerHTML = "Playing with: " + 
+						document.getElementById('enter_message').innerHTML = "Playing with: " + 
 													createjs.Sound.activePlugin.toString() + 
 													", err: " + err;
 					playintro();
 					} catch (e) {
-						msg.innerHTML = "err: " + e.message;
+						msg.innerHTML = "err: " + e;
 					}
 				}, false);
 				msg.innerHTML = "[Mobile] Touch to Enter"
