@@ -25,26 +25,23 @@ var VERILY = (function () {
 		if (initialized) {
 
 			if (!mobile) {
-				c.Sound.play("introsound");
+				//c.Sound.play("introsound");
+				document.getElementById('audioclip').play();
 				playintro();
 			} else {
 				var msg = $('#enter_message')[0];
 
-				msg.addEventListener('click', function() {
-					msg.innerHTML = "click - playing sound";
-					c.Sound.play("introsound");
+					msg.addEventListener('click', function() {
+						msg.innerHTML = "click - playing sound";
+						//c.Sound.play("introsound");
+						document.getElementById('audioclip').play();
 
-					if (!createjs.Sound.initializeDefaultPlugins()) {
-						msg.innerHTML = "this device can't play sound.";
-					}
 
-					/*try {
-						c.Sound.play("introsound");
-					} catch (e) {
-						msg.innerHTML = "err: " + e || 'unknown error';
-					}*/
+						if (!createjs.Sound.initializeDefaultPlugins()) {
+							msg.innerHTML = "this device can't play sound.";
+						}
 
-				}, false);
+					}, false);
 
 				msg.innerHTML = "[Mobile] Touch to Enter"
 			}
@@ -85,6 +82,7 @@ var VERILY = (function () {
 		/**
 			* reset the stage
 			*/
+		createjs.Tween.removeAllTweens();
 		stage.removeAllChildren();
 		stage.update();
 
