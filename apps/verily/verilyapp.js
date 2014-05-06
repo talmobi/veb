@@ -27,10 +27,10 @@ var VERILY = (function () {
 			if (!mobile) {
 				playintro();
 			} else {
-				var msg = $('#enter_message');
+				var msg = $('#enter_message')[0];
 
 				msg.addEventListener('click', function() {
-					var msg = $('#enter_message');
+					var msg = $('#enter_message')[0];
 					var err = "";
 					try {
 						c.Sound.play("introsound");
@@ -71,6 +71,10 @@ var VERILY = (function () {
 	}
 	createjs.Ticker.setFPS(fps);
 	createjs.Ticker.addEventListener('tick', stage);
+
+	function init() {
+		
+	}
 
 	function playintro() {
 		console.log("Playing Intro");
