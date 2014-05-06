@@ -51,6 +51,11 @@ var VERILY = (function () {
 
 	queue.loadManifest( manifest );
 
+	var audioclip = document.getElementById('audioclip');
+	/*audioclip.oncanplay = function () {
+		playintro();
+	};*/
+
 	/**
 		* Initialize the Stage
 		*/
@@ -73,7 +78,6 @@ var VERILY = (function () {
 	createjs.Ticker.addEventListener('tick', stage);
 
 	function init() {
-
 	}
 
 	function playintro() {
