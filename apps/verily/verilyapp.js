@@ -33,18 +33,22 @@ var VERILY = (function () {
 				var msg = document.getElementById('enter_message')
 
 					msg.addEventListener('click', function() {
-						msg.innerHTML = "click - playing sound";
+						msg.innerHTML = "click";
 						//c.Sound.play("introsound");
 						audioclip.muted = true;
 						audioclip.play();
 						audioclip.pause();
+						audioclip.muted = false;
 
-						setTimeout(function() {
-							var audioclip = document.getElementById('audioclip');
-							audioclip.muted = false;
+						function start() {
+							msg.innerHTML = "Playing."
 							audioclip.play();
 							playintro();
-						}, 500);
+						}
+
+						setTimeout(function() {
+							start();
+						}, 1000);
 
 					}, false);
 
