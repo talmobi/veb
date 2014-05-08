@@ -2,7 +2,8 @@ var VERILY = (function() {
 	// private fields
 	var root, widget, mobile
 		, img, audioclip, fps = 60
-		, playing = false, queue, loadComplete = false;
+		, playing = false, queue, loadComplete = false
+		, shouldStart = false;
 
 	/**
 		*	Init App
@@ -85,9 +86,24 @@ var VERILY = (function() {
 			loadComplete = true;
 			// Init the widget
 			widget = initWidget();
+
+			if (shouldStart) {
+				play();
+			}
 		});
 
 	} // init()
+
+	function play() {
+		console.log("playing intro.");
+
+		widget.play();
+
+		audioclip.pause();
+		audioclip.currentTime = 0;
+		audioclip.muted = false;
+		audioclip.play();
+	}
 
 	function playintro() {
 		
@@ -95,32 +111,11 @@ var VERILY = (function() {
 		$(img).fadeOut(1000).promise().done( function() {
 			console.log("promise done.");
 
-			function play() {
-				console.log("playing intro.");
-
-				widget.play();
-
-				audioclip.pause();
-				audioclip.currentTime = 0;
-				audioclip.muted = false;
-				audioclip.play();
-			}
-
 			if (loadComplete && widget) {
 				play();
-			} else {
-				function playLater(delay) {
-					if (loadComplete && widget) {
-						play();
-					} else {
-						setTimeout(playLater(33), 33);
-					}
-				};
-
-				setTimeout(function() {
-					playLater(33);
-				}, 33);
 			}
+
+			shouldStart = true;
 		});
 
 	} // playintro()
