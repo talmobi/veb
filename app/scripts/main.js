@@ -93,19 +93,34 @@ var VERILY = (function() {
 		
 
 		$(img).fadeOut(1000).promise().done( function() {
-			console.log("promise done");
+			console.log("promise done.");
 
-			while (!loadComplete || !widget) {
-				continue;
+			function play() {
+				console.log("playing intro.");
+
+				widget.play();
+
+				audioclip.pause();
+				audioclip.currentTime = 0;
+				audioclip.muted = false;
+				audioclip.play();
 			}
 
-			widget.play();
+			if (loadComplete && widget) {
+				play();
+			} else {
+				function playLater(delay) {
+					if (loadComplete && widget) {
+						play();
+					} else {
+						setTimeout(playLater(33), 33);
+					}
+				};
 
-			audioclip.pause();
-			audioclip.currentTime = 0;
-			audioclip.muted = false;
-			audioclip.play();
-			console.log("ddd");
+				setTimeout(function() {
+					playLater(33);
+				}, 33);
+			}
 		});
 
 	} // playintro()
