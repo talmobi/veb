@@ -167,11 +167,15 @@ var VERILY = (function() {
 
 		kave = createImage( queue.getResult("intromusic"), 1 );
 		//kave.x = window.innerWidth - kave.width / 1.6 - 4;
-		kave.x = info.x + info.width / 2- kave.width / 2;
+		kave.x = info.x + info.width / 2 - kave.width / 2;
 		kave.y = window.innerHeight - kave.height * g_scale / 2;
 
 		if (kave.x - kave.width / 2 < 64 || info.scaleX < 1) {
 			kave.x = window.innerWidth - kave.width / 2;
+		}
+
+		if (window.innerHeight > 700) {
+			kave.y = 700;
 		}
 
 		stage.addChild(kave);
@@ -210,6 +214,9 @@ var VERILY = (function() {
 			if (xx < 0)
 				xx = ei.width / 2;
 			var yy = kave.y - ei.height;
+			if (window.innerWidth < 480) {
+				yy = window.innerHeight - ei.height * 2;
+			}
 
 			footer.delay(1600).fadeIn(2000).css({
 				position: 'absolute',
