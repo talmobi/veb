@@ -1,0 +1,13 @@
+body {
+    background: #ffffff;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #333;
+}
+
+div > img {
+    display: block;
+    margin.top: 10%;
+    margin-left: auto;
+    margin-right: auto;
+    vertical-align: middle;
+}
