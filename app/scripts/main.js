@@ -25,11 +25,21 @@ var VERILY = (function() {
 
 			i.onload = function() {
 				img =  $(i);
-				var pulsing = true;
-				img.hide();
-				root.append(img);
-				img.slideDown(2000);
 
+				img.css({
+					"position": "absolute",
+					"left": window.innerWidth / 2 - i.width / 2,
+					"top": -i.height
+				});
+
+				var pulsing = true;
+				root.append(img);
+
+				var a = i.height;
+
+				img.animate({
+					"top": "+="+a+"px"
+				}, 2000, function() { console.log("done") } );
 
 				if (mobile) {
 					root.click( function() {
