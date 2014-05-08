@@ -1,13 +1,21 @@
 body {
-    background: #ffffff;
+    background: #FFF;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #333;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
-div > img {
+#appRoot {
     display: block;
     margin.top: 10%;
     margin-left: auto;
     margin-right: auto;
     vertical-align: middle;
+}
+
+canvas {
+    display: block;
 }

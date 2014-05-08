@@ -4,7 +4,9 @@
   "dependencies": {
     "jquery": "~1.11.0",
     "easeljs": "*",
-    "tweenjs": "*"
+    "tweenjs": "*",
+    "PreloadJS": "*",
+    "TweenJS": "*"
   },
   "devDependencies": {}
 }
