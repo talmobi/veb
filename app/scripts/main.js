@@ -13,7 +13,7 @@ var VERILY = (function() {
 		mobile = false;
 		if (window.innerWidth < 480) { // assume it's a mobile
 			mobile = true;
-			fps = 30;
+			fps = 20;
 		}
 
 		audioclip = $('#audioclip')[0];
@@ -120,11 +120,15 @@ var VERILY = (function() {
 
 	} // playintro()
 
+
+	var dcanvas;
+
 	function initWidget() {
 		var g_scale =  1;
 
 		var c = createjs;
 		var canvas = document.createElement('canvas');
+		dcanvas = $(canvas);
 
 		canvas.width = window.innerWidth;
 		canvas.height = window.innerHeight;
@@ -136,8 +140,8 @@ var VERILY = (function() {
 		createjs.Ticker.setFPS(fps || 20);
 		createjs.Ticker.addEventListener('tick', stage);
 
-		$(canvas).hide();
-		root.after($(canvas));
+		dcanvas.hide();
+		root.after(dcanvas);
 
 
 		/**
@@ -180,7 +184,7 @@ var VERILY = (function() {
 		kave.x = info.x + info.width / 2 - kave.width / 2;
 		kave.y = window.innerHeight - kave.height * g_scale / 2;
 
-		if (kave.x - kave.width / 2 < 64 || info.scaleX < 1) {
+		if (kave.x < kave.width / 2) {
 			kave.x = window.innerWidth - kave.width / 2;
 		}
 
@@ -198,7 +202,7 @@ var VERILY = (function() {
 			*	Tweening
 			*/
 		function phaseOne() {
-			$(canvas).show();
+			dcanvas.show();
 			createjs.Tween.get(veb).wait(200)
 										.to({alpha:1, scaleX:veb.ss, scaleY:veb.ss}, 2500).wait(3100).call(phaseTwo);
 			createjs.Tween.get(veb_sub).wait(200).wait(1900)
