@@ -111,7 +111,7 @@ var VERILY = (function() {
 	} // playintro()
 
 	function initWidget() {
-		var g_scale = 1;
+		var g_scale =  1;
 
 		var c = createjs;
 		var canvas = document.createElement('canvas');
@@ -139,14 +139,18 @@ var VERILY = (function() {
 			var img = new createjs.Bitmap(src);
 
 			// confgiure image dimensions (based on verilyeb.com video and homepage)
+			var ss = window.innerWidth / (src.width * 1 );
+			if (ss > 1)
+				ss = 1;
 			img.regX = src.width / 2;
 			img.regY = src.height / 2;
 			img.x = canvas.width / 2;
 			img.y = canvas.height / 2;
 			img.width = src.width;
 			img.height = src.height;
-			img.scaleX *= g_scale * (scale || 2.2);
-			img.scaleY *= g_scale * (scale || 2.2);
+			img.ss = ss;
+			img.scaleX *= g_scale * (scale || 2.2) * ss;
+			img.scaleY *= g_scale * (scale || 2.2) * ss;
 			img.alpha = 0;
 
 			return img;
@@ -162,8 +166,14 @@ var VERILY = (function() {
 		stage.addChild(info);
 
 		kave = createImage( queue.getResult("intromusic"), 1 );
-		kave.x = window.innerWidth - kave.width * g_scale;
-		kave.y = window.innerHeight - kave.height * g_scale;
+		//kave.x = window.innerWidth - kave.width / 1.6 - 4;
+		kave.x = info.x + info.width / 2- kave.width / 2;
+		kave.y = window.innerHeight - kave.height * g_scale / 2;
+
+		if (kave.x - kave.width / 2 < 64 || info.scaleX < 1) {
+			kave.x = window.innerWidth - kave.width / 2;
+		}
+
 		stage.addChild(kave);
 
 		var footer = $('#Footer');
@@ -176,9 +186,9 @@ var VERILY = (function() {
 		function phaseOne() {
 			$(canvas).show();
 			createjs.Tween.get(veb).wait(200)
-										.to({alpha:1, scaleX:g_scale, scaleY:g_scale}, 2500).wait(3100).call(phaseTwo);
+										.to({alpha:1, scaleX:veb.ss, scaleY:veb.ss}, 2500).wait(3100).call(phaseTwo);
 			createjs.Tween.get(veb_sub).wait(200).wait(1900)
-										.to({alpha:1, scaleX:g_scale, scaleY:g_scale}, 300);
+										.to({alpha:1, scaleX:veb_sub.ss, scaleY:veb_sub.ss}, 300);
 		}
 
 		function phaseTwo() {
@@ -195,11 +205,13 @@ var VERILY = (function() {
 			createjs.Tween.get(kave).wait(100)
 									.to({alpha:1}, 2200);
 			
-			
-			var xx = window.innerWidth / 6;
-			var yy = info.y + window.innerHeight / 10;
+			var ei = $('#Footer .icon')[0];
+			var xx = info.x - info.width / 2 + ei.width / 2;
+			if (xx < 0)
+				xx = ei.width / 2;
+			var yy = kave.y - ei.height;
 
-			footer.delay(2000).fadeIn(2000).css({
+			footer.delay(1600).fadeIn(2000).css({
 				position: 'absolute',
 				marginLeft: 0, marginTop: 0,
 				top: yy, left: xx
