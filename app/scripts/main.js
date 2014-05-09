@@ -181,7 +181,6 @@ var VERILY = (function() {
 
 		kave = createImage( queue.getResult("intromusic"), 1 );
 		//kave.x = window.innerWidth - kave.width / 1.6 - 4;
-		kave.x = info.x + info.width / 2 - kave.width / 2;
 		kave.y = window.innerHeight - kave.height * g_scale / 2;
 
 		if (kave.x < kave.width / 2) {
@@ -191,6 +190,9 @@ var VERILY = (function() {
 		if (window.innerHeight > 700) {
 			kave.y = 700;
 		}
+
+		kave.x = (info.x + info.width / 2) * info.ss - kave.width / 2 * kave.ss;
+		kave.x = (info.x + info.width / 2 - kave.width / 2) * info.ss;
 
 		stage.addChild(kave);
 
