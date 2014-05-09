@@ -46,8 +46,9 @@ var VERILY = (function() {
 					root.click( function() {
 						if (!playing) {
 							playing = true;
-							audioclip.muted = true;
 							audioclip.play();
+							console.log("playing audio");
+							audioclip.muted = true;
 							playintro();
 						}
 					});
@@ -95,7 +96,6 @@ var VERILY = (function() {
 	} // init()
 
 	function play() {
-		console.log("playing intro.");
 
 		widget.play();
 
@@ -103,6 +103,7 @@ var VERILY = (function() {
 		audioclip.currentTime = 0;
 		audioclip.muted = false;
 		audioclip.play();
+		console.log("playing intro.");
 	}
 
 	function playintro() {
@@ -113,9 +114,10 @@ var VERILY = (function() {
 
 			if (loadComplete && widget) {
 				play();
+			} else {
+				shouldStart = true;
 			}
 
-			shouldStart = true;
 		});
 
 	} // playintro()
@@ -192,7 +194,13 @@ var VERILY = (function() {
 		}
 
 		kave.x = (info.x + info.width / 2) * info.ss - kave.width / 2 * kave.ss;
-		kave.x = (info.x + info.width / 2 - kave.width / 2) * info.ss;
+
+
+		kave.x = (info.x + info.width / 2 - kave.width / 2) * info.ss / kave.ss;
+
+		if (mobile) {
+			kave.x = window.innerWidth - kave.width / 2 * kave.ss;
+		}
 
 		stage.addChild(kave);
 
