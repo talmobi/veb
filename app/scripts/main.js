@@ -11,7 +11,7 @@ var VERILY = (function() {
 	function init() {
 		root = $('#appRoot');
 		mobile = false;
-		if (window.innerWidth < 480) { // assume it's a mobile
+		if (window.innerWidth <= 480) { // assume it's a mobile
 			mobile = true;
 			fps = 30;
 		}
