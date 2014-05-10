@@ -13,62 +13,15 @@ var VERILY = (function() {
 		mobile = false;
 		if (window.innerWidth < 480) { // assume it's a mobile
 			mobile = true;
-			fps = 20;
+			fps = 30;
 		}
 
 		audioclip = $('#audioclip')[0];
 
-		if (mobile) {
-			/**
-				*	Show Welcome Message
-				*/
-			var i = document.createElement('img');
-
-			i.onload = function() {
-				img =  $(i);
-
-				img.css({
-					"position": "absolute",
-					"left": window.innerWidth / 2 - i.width / 2,
-					"top": -i.height
-				});
-
-				var pulsing = true;
-				root.append(img);
-
-				var a = i.height;
-
-				img.animate({
-					"top": "+="+a+"px"
-				}, 2000, function() { console.log("done") } );
-
-				if (mobile) {
-					root.click( function() {
-						if (!playing) {
-							playing = true;
-							audioclip.play();
-							console.log("playing audio");
-							audioclip.muted = true;
-							playintro();
-						}
-					});
-				} else {
-					root.mouseover( function() {
-						if (!playing) {
-							playing = true;
-							playintro();
-						}
-					});
-				} // if mobile (clicking)
-			}
-			i.src = 'images/w_img.png'; // welcome image
-
-	} /* if mobile */ else {
-		// Desktop, play immediately
+		// Desktop/Mobile, play immediately
 		setTimeout(function() {
 			playintro();
 		}, 200);
-	}
 
 
 		/**
@@ -78,7 +31,7 @@ var VERILY = (function() {
 			{ id: "intro1", src: "images/intro1.png" },
 			{ id: "intro1_sub", src: "images/intro1_sub.png" },
 			{ id: "intro2", src: "images/intro2.png" },
-			{ id: "intromusic", src: "images/intromusic.png" }
+			{ id: "intromusic", src: "images/intromusic_b.png" }
 		];
 		queue = new createjs.LoadQueue(false);
 		queue.loadManifest( manifest );
@@ -99,10 +52,13 @@ var VERILY = (function() {
 
 		widget.play();
 
-		audioclip.pause();
-		audioclip.currentTime = 0;
-		audioclip.muted = false;
-		audioclip.play();
+		if (!mobile) {
+			audioclip.pause();
+			audioclip.currentTime = 0;
+			audioclip.muted = false;
+			audioclip.play();
+		}
+
 		console.log("playing intro.");
 	}
 
@@ -185,15 +141,16 @@ var VERILY = (function() {
 		//kave.x = window.innerWidth - kave.width / 1.6 - 4;
 		kave.y = window.innerHeight - kave.height * g_scale / 2;
 
-		if (kave.x < kave.width / 2) {
-			kave.x = window.innerWidth - kave.width / 2;
-		}
-
 		if (window.innerHeight > 700) {
 			kave.y = 700;
 		}
 
+		/*
+		if (kave.x < kave.width / 2) {
+			kave.x = window.innerWidth - kave.width / 2;
+		}
 		kave.x = (info.x + info.width / 2) * info.ss - kave.width / 2 * kave.ss;
+		*/
 
 
 		kave.x = (info.x + info.width / 2 - kave.width / 2) * info.ss / kave.ss;
@@ -202,7 +159,9 @@ var VERILY = (function() {
 			kave.x = window.innerWidth - kave.width / 2 * kave.ss;
 		}
 
-		stage.addChild(kave);
+		if (!mobile) { // don't display author credits on mobile
+			stage.addChild(kave);
+		}
 
 		var footer = $('#Footer');
 		footer.hide();
@@ -231,7 +190,7 @@ var VERILY = (function() {
 			createjs.Tween.get(info).wait(100)
 									.to({alpha:1}, 2200);
 			createjs.Tween.get(kave).wait(100)
-									.to({alpha:1}, 2200);
+									.to({alpha:1}, 2200).wait(100).call(animCompleted);
 			
 			var ei = $('#Footer .icon')[0];
 			var xx = info.x - info.width / 2 + ei.width / 2;
@@ -247,7 +206,10 @@ var VERILY = (function() {
 				marginLeft: 0, marginTop: 0,
 				top: yy, left: xx
 			}).appendTo('body');
+		}
 
+		function animCompleted() {
+			createjs.Ticker.setFPS(1);
 		}
 
 		return {
