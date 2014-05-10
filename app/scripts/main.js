@@ -16,7 +16,7 @@ var VERILY = (function() {
 			fps = 20;
 		}
 
-		audioclip = $('#audioclip')[0];
+		//audioclip = $('#audioclip')[0];
 
 		if (mobile) {
 			/**
@@ -45,10 +45,18 @@ var VERILY = (function() {
 				if (mobile) {
 					root.click( function() {
 						if (!playing) {
+							$('#audioclip')[0].play();
+							//$('#silentclip')[0].play();
+
 							playing = true;
-							audioclip.play();
+							
+							createjs.Sound.play("silentsound");
 							console.log("playing audio");
-							audioclip.muted = true;
+
+							/*audioclip.play();
+							console.log("playing audio");
+							audioclip.muted = true;*/
+
 							playintro();
 						}
 					});
@@ -78,9 +86,12 @@ var VERILY = (function() {
 			{ id: "intro1", src: "images/intro1.png" },
 			{ id: "intro1_sub", src: "images/intro1_sub.png" },
 			{ id: "intro2", src: "images/intro2.png" },
-			{ id: "intromusic", src: "images/intromusic.png" }
+			{ id: "intromusic", src: "images/intromusic.png" },
+			{ id: "silentsound", src: "music/silent2s.mp3" },
+			{ id: "verilysound", src: "music/verilyebintro.mp3" }
 		];
 		queue = new createjs.LoadQueue(false);
+		queue.installPlugin(createjs.Sound); // install sound plugin
 		queue.loadManifest( manifest );
 
 		queue.on("complete", function() {
@@ -97,12 +108,15 @@ var VERILY = (function() {
 
 	function play() {
 
+		//createjs.Sound.play("verilysound");
+		$('#audioclip')[0].play();
 		widget.play();
 
-		audioclip.pause();
+		/*audioclip.pause();
 		audioclip.currentTime = 0;
 		audioclip.muted = false;
-		audioclip.play();
+		audioclip.play();*/
+
 		console.log("playing intro.");
 	}
 

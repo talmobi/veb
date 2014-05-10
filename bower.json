@@ -6,7 +6,8 @@
     "easeljs": "*",
     "tweenjs": "*",
     "PreloadJS": "*",
-    "TweenJS": "*"
+    "TweenJS": "*",
+    "SoundJS": "*"
   },
   "devDependencies": {}
 }
