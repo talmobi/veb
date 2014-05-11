@@ -3,7 +3,7 @@ var VERILY = (function() {
 	var root, widget, mobile
 		, img, audioclip, fps = 60
 		, playing = false, queue, loadComplete = false
-		, shouldStart = false;
+		, shouldStart = false, images, spriteSheet;
 
 	/**
 		*	Init App
@@ -28,15 +28,30 @@ var VERILY = (function() {
 		*	Initialise the widget
 		*/
 		var manifest = [
-			{ id: "intro1", src: "images/intro1.png" },
-			{ id: "intro1_sub", src: "images/intro1_sub.png" },
-			{ id: "intro2", src: "images/intro2.png" },
-			{ id: "intromusic", src: "images/intromusic_b.png" }
+			{ id: "spriteSheet", src: "images/vebSheet.png" }
 		];
 		queue = new createjs.LoadQueue(false);
 		queue.loadManifest( manifest );
 
-		queue.on("complete", function() {
+		function initSpriteSheet() {
+			var data = {
+				images: [queue.getResult('spriteSheet')],
+				frames: [
+					[2,67,1117,134],
+					[1447,2,469,72],
+					[2,2,1443,63],
+					[2,237,419,50]
+				],
+				animations: { intro1:[0], intro1_sub:[0], intro2:[0], intromusic:[0] };
+			}
+
+			spriteSheet = new createjs.SpriteSheet(data);
+		}
+
+		queue.addEventListener("complete", function() {
+			initSpriteSheet();
+
+
 			loadComplete = true;
 			// Init the widget
 			widget = initWidget();
@@ -128,16 +143,16 @@ var VERILY = (function() {
 			return img;
 		}
 
-		veb = createImage( queue.getResult("intro1") );
+		veb = createImage( SpriteSheetUtils.extractFrame(spriteSheet, "intro1") );
 		stage.addChild(veb);
 
-		veb_sub = createImage( queue.getResult("intro1_sub"), 1 );
+		veb_sub = createImage( SpriteSheetUtils.extractFrame(spriteSheet, "intro1_sub"), 1 );
 		stage.addChild(veb_sub);
 
-		info = createImage( queue.getResult("intro2"), 1 );
+		info = createImage( SpriteSheetUtils.extractFrame(spriteSheet, "intro2"), 1 );
 		stage.addChild(info);
 
-		kave = createImage( queue.getResult("intromusic"), 1 );
+		kave = createImage( SpriteSheetUtils.extractFrame(spriteSheet, "intromusic"), 1 );
 		//kave.x = window.innerWidth - kave.width / 1.6 - 4;
 		kave.y = window.innerHeight - kave.height * g_scale / 2;
 
