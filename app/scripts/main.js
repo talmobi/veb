@@ -42,13 +42,13 @@ var VERILY = (function() {
 					[2,2,1443,63],
 					[2,237,419,50]
 				],
-				animations: { intro1:[0], intro1_sub:[0], intro2:[0], intromusic:[0] };
+				animations: { intro1:[0], intro1_sub:[1], intro2:[2], intromusic:[3] }
 			}
 
 			spriteSheet = new createjs.SpriteSheet(data);
 		}
 
-		queue.addEventListener("complete", function() {
+		queue.on("complete", function() {
 			initSpriteSheet();
 
 
@@ -143,21 +143,27 @@ var VERILY = (function() {
 			return img;
 		}
 
-		veb = createImage( SpriteSheetUtils.extractFrame(spriteSheet, "intro1") );
+		veb = createImage( createjs.SpriteSheetUtils.extractFrame(spriteSheet, "intro1") );
 		stage.addChild(veb);
 
-		veb_sub = createImage( SpriteSheetUtils.extractFrame(spriteSheet, "intro1_sub"), 1 );
+		veb_sub = createImage( createjs.SpriteSheetUtils.extractFrame(spriteSheet, "intro1_sub"), .75 );
+		veb_sub.y = veb.y + (200 - veb.height / 2) * veb.ss;
+		veb_sub.scaleX *= veb.ss;
+		veb_sub.scaleY *= veb.ss;
 		stage.addChild(veb_sub);
 
-		info = createImage( SpriteSheetUtils.extractFrame(spriteSheet, "intro2"), 1 );
+		info = createImage( createjs.SpriteSheetUtils.extractFrame(spriteSheet, "intro2"), 1 );
+		info.scaleX *= 0.95;
+		info.scaleY *= 0.95;
 		stage.addChild(info);
 
-		kave = createImage( SpriteSheetUtils.extractFrame(spriteSheet, "intromusic"), 1 );
+		kave = createImage( createjs.SpriteSheetUtils.extractFrame(spriteSheet, "intromusic"), 1 );
 		//kave.x = window.innerWidth - kave.width / 1.6 - 4;
 		kave.y = window.innerHeight - kave.height * g_scale / 2;
+		kave.y -= veb.height / 2;
 
-		if (window.innerHeight > 700) {
-			kave.y = 700;
+		if (kave.y > window.innerWidth - 10 - kave.height) {
+			kave.y = window.innerWidth - 10 - kave.height;
 		}
 
 		/*
@@ -168,7 +174,7 @@ var VERILY = (function() {
 		*/
 
 
-		kave.x = (info.x + info.width / 2 - kave.width / 2) * info.ss / kave.ss;
+		kave.x = (info.x + info.width / 2 - kave.width / 2) * info.ss / kave.ss / 0.95;
 
 		if (mobile) {
 			kave.x = window.innerWidth - kave.width / 2 * kave.ss;
@@ -181,6 +187,10 @@ var VERILY = (function() {
 		var footer = $('#Footer');
 		footer.hide();
 
+		var spd = 1;
+		if (mobile) {
+			spd = .5;
+		}
 
 		/**
 			*	Tweening
@@ -188,9 +198,9 @@ var VERILY = (function() {
 		function phaseOne() {
 			dcanvas.show();
 			createjs.Tween.get(veb).wait(200)
-										.to({alpha:1, scaleX:veb.ss, scaleY:veb.ss}, 2500).wait(3100).call(phaseTwo);
-			createjs.Tween.get(veb_sub).wait(200).wait(1900)
-										.to({alpha:1, scaleX:veb_sub.ss, scaleY:veb_sub.ss}, 300);
+										.to({alpha:1, scaleX:veb.ss, scaleY:veb.ss}, 2500 * spd).wait(3100 * spd).call(phaseTwo);
+			createjs.Tween.get(veb_sub).wait(200).wait(1900 * spd)
+										.to({alpha:1}, 300 * spd);
 		}
 
 		function phaseTwo() {
@@ -208,9 +218,10 @@ var VERILY = (function() {
 									.to({alpha:1}, 2200).wait(100).call(animCompleted);
 			
 			var ei = $('#Footer .icon')[0];
-			var xx = info.x - info.width / 2 + ei.width / 2;
+			var xx = info.x - info.width / 2 + ei.width;
 			if (xx < 0)
-				xx = ei.width / 2;
+				xx = ei.width;
+			xx /= 0.95;
 			var yy = kave.y - ei.height;
 			if (window.innerWidth < 480) {
 				yy = window.innerHeight - ei.height * 2;
