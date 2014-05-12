@@ -21,10 +21,10 @@ var VERILY = (function() {
 			fps = 30;
 		}
 
-		if (WURFL.form_factor == 'Desktop') {
+		/*if (WURFL.form_factor == 'Desktop') {
 			mobile = false;
 			fps = 60;
-		}
+		}*/
 
 		audioclip = $('#audioclip')[0];
 
