@@ -1,13 +1,14 @@
+/*
 eval(function(p,a,c,k,e,d){e=function(c){return c};if(!''.replace(/^/,String)){while(c--){d[c]=k[c]||c}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('3 2={"1":0,"4":"5 8 7","6":"9"};',10,10,'false|is_mobile|WURFL|var|complete_device_name|generic|form_factor|browser|web|Desktop'.split('|'),0,{}));
-
+*/
 console.log(WURFL);
 
 var VERILY = (function() {
 	// private fields
-	var root, widget, mobile
+	var root, widget, mobile = true
 		, img, audioclip, fps = 60
 		, playing = false, queue, loadComplete = false
-		, shouldStart = false, images, spriteSheet;
+		, shouldStart = false, images, spriteSheet, animDone = false;
 
 	/**
 		*	Init App
@@ -15,8 +16,9 @@ var VERILY = (function() {
 	function init() {
 		root = $('#appRoot');
 		mobile = false;
+		fps = 60;
 		//if (window.innerWidth <= 480) { // assume it's a mobile
-		if (WURFL.form_factor != 'Desktop' || window.innerWidth < 900) { // assume it's a mobile
+		if (!WURFL || !WURFL.form_factor.match(/desktop/i)) {
 			mobile = true;
 			fps = 30;
 		}
@@ -89,7 +91,6 @@ var VERILY = (function() {
 
 	function playintro() {
 		
-
 		$(img).fadeOut(1000).promise().done( function() {
 			console.log("promise done.");
 
@@ -103,6 +104,12 @@ var VERILY = (function() {
 
 	} // playintro()
 
+	window.onresize = function() {
+		/*widget = initWidget();
+		if (shouldStart) {
+			play();
+		}*/
+	}
 
 	var dcanvas;
 
@@ -158,8 +165,11 @@ var VERILY = (function() {
 
 		veb_sub = createImage( createjs.SpriteSheetUtils.extractFrame(spriteSheet, "intro1_sub"), .75 );
 		veb_sub.y = veb.y + (200 - veb.height / 2) * veb.ss;
-		veb_sub.scaleX *= veb.ss;
-		veb_sub.scaleY *= veb.ss;
+		var _ss = 1;
+		if (mobile) _ss = 1.2;
+		veb_sub.scaleX *= veb.ss * _ss;
+		veb_sub.scaleY *= veb.ss * _ss;
+
 		stage.addChild(veb_sub);
 
 		info = createImage( createjs.SpriteSheetUtils.extractFrame(spriteSheet, "intro2"), 1 );
@@ -167,7 +177,7 @@ var VERILY = (function() {
 		info.scaleY *= 0.95;
 		stage.addChild(info);
 
-		kave = createImage( createjs.SpriteSheetUtils.extractFrame(spriteSheet, "intromusic"), 1 );
+		kave = createImage( createjs.SpriteSheetUtils.extractFrame(spriteSheet, "intromusic"), 0.75 );
 		//kave.x = window.innerWidth - kave.width / 1.6 - 4;
 		kave.y = window.innerHeight - kave.height * g_scale / 2;
 		kave.y -= veb.height / 2;
@@ -237,6 +247,14 @@ var VERILY = (function() {
 				yy = window.innerHeight - ei.height * 2;
 			}
 
+			// increase size of email icon for larger screens
+			if (window.innerWidth > 600) {
+				var s = window.innerWidth / 600;
+				if (s > 2) s = 2;
+				ei.width *= s;
+				ei.height *= s;
+			}
+
 			footer.delay(1600).fadeIn(2000).css({
 				position: 'absolute',
 				marginLeft: 0, marginTop: 0,
@@ -245,6 +263,7 @@ var VERILY = (function() {
 		}
 
 		function animCompleted() {
+			animDone = true;
 			createjs.Ticker.setFPS(1);
 		}
 
