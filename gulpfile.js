@@ -5,61 +5,88 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     uglify = require('gulp-uglify'),
     htmlreplace = require('gulp-html-replace'),
-    bower = require('gulp-bower-files');
+    bower = require('gulp-bower');
 
-gulp.task('process-scripts', function() {
+
+function process_scripts() {
   return gulp.src('app/scripts/*.js')
     .pipe(concat('main.js'))
     .pipe(gulp.dest('dist/scripts'))
     .pipe(rename({suffix: '.min'} ))
     .pipe(uglify())
     .pipe(gulp.dest('dist/scripts'));
+}
+gulp.task('process-scripts', function() {
+  return process_scripts();
 });
 
-gulp.task('process-less', function() {
+
+function process_less() {
   return gulp.src('app/styles/*.less')
     .pipe(concat('main.css'))
     .pipe(less()) // process the less files
-    .pipe(gulp.dest('app/styles'))
+    .pipe(gulp.dest('app/styles'));
+}
+gulp.task('process-less', function() {
+  return process_less();
 });
 
-gulp.task('process-css', function() {
+
+function process_css() {
   return gulp.src('app/styles/*.css')
     .pipe(concat('main.css'))
     .pipe(gulp.dest('dist/styles'))
     .pipe(rename({suffix: '.min'}))
     .pipe(minifycss())
     .pipe(gulp.dest('dist/styles'));
+}
+gulp.task('process-css', function() {
+  return process_css();
 });
 
-gulp.task('process-images', function() {
+
+function process_images() {
   return gulp.src('app/images/*')
     .pipe(gulp.dest('dist/images'));
-
+}
+gulp.task('process-images', function() {
+  return process_images();
 });
 
-gulp.task('process-music', function() {
+
+function process_music() {
   return gulp.src('app/music/*')
     .pipe(gulp.dest('dist/music'));
+}
+gulp.task('process-music', function() {
+  return process_music();
 });
 
-gulp.task('process-bower', function() {
+
+function process_bower() {
   return bower()
     .pipe(concat('vendor.js'))
     .pipe(gulp.dest('dist/scripts'))
     .pipe(rename({suffix: '.min'}))
     .pipe(uglify())
     .pipe(gulp.dest('dist/scripts'));
+}
+gulp.task('process-bower', function() {
+  return process_bower();
 });
 
-gulp.task('process-html', function() {
+
+function process_html() {
   return gulp.src('app/index.html')
     .pipe(htmlreplace({
       'css': 'styles/main.min.css',
-      'vendorjs': 'scripts/vendor.min.js',
+      'vendorjs': 'scripts/vendor.js',
       'js': 'scripts/main.min.js'
     }))
     .pipe(gulp.dest('dist/'));
+}
+gulp.task('process-html', function() {
+  return process_html();
 });
 
 
@@ -67,13 +94,26 @@ gulp.task('process-html', function() {
 var verilyFiles = [
   'app/.htaccess', 'app/404.html', 'app/favicon.ico', 'app/robots.txt'
 ];
-gulp.task('process-verily-files', function() {
+function process_verily_files() {
   return gulp.src(verilyFiles)
     .pipe(gulp.dest('dist'));
+}
+gulp.task('process-verily-files', function() {
+  return process_verily_files();
 });
+
 
 gulp.task('watch', function() {
   gulp.watch('src/scripts/*.js', ['process-scripts']);
+});
+
+gulp.task('build', function() {
+  return process_less()
+    .pipe(process_verily_files())
+    .pipe(process_css())
+    .pipe(process_bower())
+    .pipe(process_scripts())
+    .pipe(process_html());
 });
 
 gulp.task('default', function() {
