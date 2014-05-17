@@ -105,10 +105,6 @@ var VERILY = (function() {
 	} // playintro()
 
 	window.onresize = function() {
-		/*widget = initWidget();
-		if (shouldStart) {
-			play();
-		}*/
 	}
 
 	var dcanvas;
@@ -243,7 +239,7 @@ var VERILY = (function() {
 				xx = ei.width;
 			xx /= 0.95;
 			var yy = kave.y - ei.height;
-			if (window.innerWidth < 480) {
+			if (window.innerHeight < 400) {
 				yy = window.innerHeight - ei.height * 2;
 			}
 
@@ -282,3 +278,7 @@ var VERILY = (function() {
 	} // return
 
 })();
+
+$(function() {
+	VERILY.init();
+})
