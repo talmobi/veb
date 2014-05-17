@@ -1,6 +1,6 @@
 node_modules
 dist
 .tmp
-.sass-cache
+.less-cache
 app/bower_components
 video/
