@@ -5,7 +5,7 @@ console.log(WURFL);
 
 var VERILY = (function() {
 	// private fields
-	var root, widget, mobile = true
+	var root, widget, mobile = true, app
 		, img, audioclip, fps = 60
 		, playing = false, queue, loadComplete = false
 		, shouldStart = false, images, spriteSheet, animDone = false;
@@ -14,14 +14,16 @@ var VERILY = (function() {
 		*	Init App
 		*/
 	function init() {
-		root = $('#appRoot');
+		var opts = {
+		  preload: preload,
+		  create: create,
+		  update: update
+		}
+		app = new Phaser.Game(1136, 640, Phaser.CANVAS, 'appRoot', opts);
+
 		mobile = false;
 		fps = 60;
 		//if (window.innerWidth <= 480) { // assume it's a mobile
-		if (!WURFL || !WURFL.form_factor.match(/desktop/i)) {
-			mobile = true;
-			fps = 30;
-		}
 
 		/*if (WURFL.form_factor == 'Desktop') {
 			mobile = false;

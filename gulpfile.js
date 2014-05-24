@@ -65,7 +65,7 @@ gulp.task('process-music', function() {
 
 function process_bower() {
   return bower()
-    .pipe(concat('vendor.js'))
+    .pipe(concat('bower.js'))
     .pipe(gulp.dest('dist/scripts'))
     .pipe(rename({suffix: '.min'}))
     .pipe(uglify())
@@ -74,6 +74,15 @@ function process_bower() {
 gulp.task('process-bower', function() {
   return process_bower();
 });
+
+function process_vendor() {
+  return gulp.src('app/scripts/vendor/*.js')
+    .pipe(concat('vendor.js'))
+    .pipe(gulp.dest('dist/scripts'))
+    .pipe(rename({suffix: '.min'}))
+    .pipe(uglify())
+    .pipe(gulp.dest('dist/scripts'));
+}
 
 
 function process_html() {
@@ -112,6 +121,7 @@ gulp.task('build', function() {
     .pipe(process_verily_files())
     .pipe(process_css())
     .pipe(process_bower())
+    .pipe(process_vendot())
     .pipe(process_scripts())
     .pipe(process_html());
 });
