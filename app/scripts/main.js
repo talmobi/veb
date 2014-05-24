@@ -106,31 +106,13 @@ var VERILY = (function() {
 
 	} // playintro()
 
+	// resize with phaser.js
 	window.onresize = function() {
+		app.scale.setShowAll();
+		app.scale.refresh();
 	}
 
-	var dcanvas;
-
 	function initWidget() {
-		var g_scale =  1;
-
-		var c = createjs;
-		var canvas = document.createElement('canvas');
-		dcanvas = $(canvas);
-
-		canvas.width = window.innerWidth;
-		canvas.height = window.innerHeight;
-
-		var ratio = window.innerHeight / window.innerWidth;
-
-		var stage = new c.Stage(canvas);
-
-		createjs.Ticker.setFPS(fps || 20);
-		createjs.Ticker.addEventListener('tick', stage);
-
-		dcanvas.hide();
-		root.after(dcanvas);
-
 
 		/**
 			* Create the images
