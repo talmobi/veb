@@ -1,7 +1,3 @@
-/*
-eval(function(p,a,c,k,e,d){e=function(c){return c};if(!''.replace(/^/,String)){while(c--){d[c]=k[c]||c}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('3 2={"1":0,"4":"5 8 7","6":"9"};',10,10,'false|is_mobile|WURFL|var|complete_device_name|generic|form_factor|browser|web|Desktop'.split('|'),0,{}));
-*/
-console.log(WURFL);
 
 var VERILY = (function() {
 	// private fields
@@ -19,16 +15,10 @@ var VERILY = (function() {
 		  create: create,
 		  update: update
 		}
+		// initialize phaser.js
 		app = new Phaser.Game(1136, 640, Phaser.CANVAS, 'appRoot', opts);
 
-		mobile = false;
-		fps = 60;
-		//if (window.innerWidth <= 480) { // assume it's a mobile
-
-		/*if (WURFL.form_factor == 'Desktop') {
-			mobile = false;
-			fps = 60;
-		}*/
+		mobile = app.is_mobile;
 
 		audioclip = $('#audioclip')[0];
 
@@ -36,6 +26,17 @@ var VERILY = (function() {
 		setTimeout(function() {
 			playintro();
 		}, 200);
+
+
+		function preload() {
+
+		}
+		function create() {
+
+		}
+		function update() {
+
+		}
 
 
 		/**
@@ -114,89 +115,12 @@ var VERILY = (function() {
 
 	function initWidget() {
 
-		/**
-			* Create the images
-			*/
-		var veb, veb_sub, info, kave, eicon;
-
-		function createImage(src, scale) {
-			var img = new createjs.Bitmap(src);
-
-			// confgiure image dimensions (based on verilyeb.com video and homepage)
-			var ss = window.innerWidth / (src.width * 1 );
-			if (ss > 1)
-				ss = 1;
-			img.regX = src.width / 2;
-			img.regY = src.height / 2;
-			img.x = canvas.width / 2;
-			img.y = canvas.height / 2;
-			img.width = src.width;
-			img.height = src.height;
-			img.ss = ss;
-			img.scaleX *= g_scale * (scale || 2.2) * ss;
-			img.scaleY *= g_scale * (scale || 2.2) * ss;
-			img.alpha = 0;
-
-			return img;
-		}
-
-		veb = createImage( createjs.SpriteSheetUtils.extractFrame(spriteSheet, "intro1") );
-		stage.addChild(veb);
-
-		veb_sub = createImage( createjs.SpriteSheetUtils.extractFrame(spriteSheet, "intro1_sub"), .75 );
-		veb_sub.y = veb.y + (200 - veb.height / 2) * veb.ss;
-		var _ss = 1;
-		if (mobile) _ss = 1.2;
-		veb_sub.scaleX *= veb.ss * _ss;
-		veb_sub.scaleY *= veb.ss * _ss;
-
-		stage.addChild(veb_sub);
-
-		info = createImage( createjs.SpriteSheetUtils.extractFrame(spriteSheet, "intro2"), 1 );
-		info.scaleX *= 0.95;
-		info.scaleY *= 0.95;
-		stage.addChild(info);
-
-		kave = createImage( createjs.SpriteSheetUtils.extractFrame(spriteSheet, "intromusic"), 0.75 );
-		//kave.x = window.innerWidth - kave.width / 1.6 - 4;
-		kave.y = window.innerHeight - kave.height * g_scale / 2;
-		kave.y -= veb.height / 2;
-
-		if (kave.y > window.innerWidth - 10 - kave.height) {
-			kave.y = window.innerWidth - 10 - kave.height;
-		}
-
-		/*
-		if (kave.x < kave.width / 2) {
-			kave.x = window.innerWidth - kave.width / 2;
-		}
-		kave.x = (info.x + info.width / 2) * info.ss - kave.width / 2 * kave.ss;
-		*/
-
-
-		kave.x = (info.x + info.width / 2 - kave.width / 2) * info.ss / kave.ss / 0.95;
-
-		if (mobile) {
-			kave.x = window.innerWidth - kave.width / 2 * kave.ss;
-		}
-
-		if (!mobile) { // don't display author credits on mobile
-			stage.addChild(kave);
-		}
-
-		var footer = $('#Footer');
-		footer.hide();
-
-		var spd = 1;
-		if (mobile) {
-			spd = .5;
-		}
 
 		/**
 			*	Tweening
 			*/
+		// TODO - config tweens for phaser.js
 		function phaseOne() {
-			dcanvas.show();
 			createjs.Tween.get(veb).wait(200)
 										.to({alpha:1, scaleX:veb.ss, scaleY:veb.ss}, 2500 * spd).wait(3100 * spd).call(phaseTwo);
 			createjs.Tween.get(veb_sub).wait(200).wait(1900 * spd)
@@ -228,7 +152,7 @@ var VERILY = (function() {
 			}
 
 			// increase size of email icon for larger screens
-			if (window.innerWidth > 600) {
+			if (app.device.is_desktop) {
 				var s = window.innerWidth / 600;
 				if (s > 2) s = 2;
 				ei.width *= s;
@@ -244,7 +168,6 @@ var VERILY = (function() {
 
 		function animCompleted() {
 			animDone = true;
-			createjs.Ticker.setFPS(1);
 		}
 
 		return {
