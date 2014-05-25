@@ -132,29 +132,28 @@ var VERILY = (function() {
 			veb.delay(200).to({alpha:1, scaleX:1, scaleY:1}, 2200 * spd);
 			veb_sub.delay(200).delay(1900 * spd)
 										.to({alpha:1}, 300 * spd);
+
+			veb.onComplete.add(phaseTwo, this);
 			veb.start();
 			veb_sub.start();
-			/*
-			createjs.Tween.get(veb).wait(200)
-										.to({alpha:1, scaleX:veb.ss, scaleY:veb.ss}, 2500 * spd).wait(3100 * spd).call(phaseTwo);
-			createjs.Tween.get(veb_sub).wait(200).wait(1900 * spd)
-										.to({alpha:1}, 300 * spd);
-			*/
 		}
 
 		function phaseTwo() {
-			createjs.Tween.get(veb).wait(100)
-									.to({alpha:0}, 2200).call(phaseThree);
-			createjs.Tween.get(veb_sub).wait(100)
+			veb.delay(100)
 									.to({alpha:0}, 2200);
+			veb_sub.delay(100)
+									.to({alpha:0}, 2200);
+			veb.onComplete.addOnce(phaseThree, this);
+			veb_start();
+			veb_sub.start();
 		}
 
 		function phaseThree() {
 			stage.enableMouseOver();
-			createjs.Tween.get(info).wait(100)
+			into.delay(100)
 									.to({alpha:1}, 2200);
-			createjs.Tween.get(kave).wait(100)
-									.to({alpha:1}, 2200).wait(100).call(animCompleted);
+			kave.delay(100)
+									.to({alpha:1}, 2200).delay(100);
 			
 			var ei = $('#Footer .icon')[0];
 			var xx = info.x - info.width / 2 + ei.width;
