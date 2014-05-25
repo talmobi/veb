@@ -114,17 +114,32 @@ var VERILY = (function() {
 	}
 
 	function initWidget() {
+		var vebSpr = game.add.sprite(game.world.centerX,game.worldcenterY, 'veb');
+		var veb = app.add.tween(vebSpr);
+		var veb_subSpr = game.add.sprite(game.world.centerX,game.worldcenterY, 'veb_sub');
+		var veb_sub = app.add.tween(veb_subSpr);
 
+		var spd = 1;
+		if (app.device.is_mobile)
+			spd = .75;
 
 		/**
 			*	Tweening
 			*/
 		// TODO - config tweens for phaser.js
 		function phaseOne() {
+
+			veb.delay(200).to({alpha:1, scaleX:1, scaleY:1}, 2200 * spd);
+			veb_sub.delay(200).delay(1900 * spd)
+										.to({alpha:1}, 300 * spd);
+			veb.start();
+			veb_sub.start();
+			/*
 			createjs.Tween.get(veb).wait(200)
 										.to({alpha:1, scaleX:veb.ss, scaleY:veb.ss}, 2500 * spd).wait(3100 * spd).call(phaseTwo);
 			createjs.Tween.get(veb_sub).wait(200).wait(1900 * spd)
 										.to({alpha:1}, 300 * spd);
+			*/
 		}
 
 		function phaseTwo() {
