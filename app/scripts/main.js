@@ -20,7 +20,8 @@ var VERILY = (function() {
 
 		mobile = app.is_mobile;
 
-		audioclip = $('#audioclip')[0];
+		//audioclip = $('#audioclip')[0];
+		audioclip = document.getelementById('audioclip');
 
 		// Desktop/Mobile, play immediately
 		setTimeout(function() {
