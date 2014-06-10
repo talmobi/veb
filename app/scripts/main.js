@@ -6,107 +6,36 @@ var VERILY = (function() {
 		, playing = false, queue, loadComplete = false
 		, shouldStart = false, images, spriteSheet, animDone = false;
 
+	var frameData;
+	var vebSpr;
+	var vebSubSpr;
+
 	/**
 		*	Init App
 		*/
 	function init() {
 		var opts = {
 		  preload: preload,
-		  create: create,
-		  update: update
+		  create: create
 		}
 		// initialize phaser.js
 		app = new Phaser.Game(1136, 640, Phaser.CANVAS, 'appRoot', opts);
 
 		mobile = app.is_mobile;
 
-		//audioclip = $('#audioclip')[0];
-		audioclip = document.getelementById('audioclip');
-
-		// Desktop/Mobile, play immediately
-		setTimeout(function() {
-			playintro();
-		}, 200);
-
+		audioclip = document.getElementById('audioclip');
 
 		function preload() {
-
+			app.load.atlas('sheet', 'images/vebSheet.png', 'data/vebSheet.json');
 		}
+
+		
+
 		function create() {
-
+			initWidget();
 		}
-		function update() {
-
-		}
-
-
-		/**
-		*	Initialise the widget
-		*/
-		var manifest = [
-			{ id: "spriteSheet", src: "images/vebSheet.png" }
-		];
-		queue = new createjs.LoadQueue(false);
-		queue.loadManifest( manifest );
-
-		function initSpriteSheet() {
-			var data = {
-				images: [queue.getResult('spriteSheet')],
-				frames: [
-					[2,67,1117,134],
-					[1447,2,469,72],
-					[2,2,1443,63],
-					[2,237,419,50]
-				],
-				animations: { intro1:[0], intro1_sub:[1], intro2:[2], intromusic:[3] }
-			}
-
-			spriteSheet = new createjs.SpriteSheet(data);
-		}
-
-		queue.on("complete", function() {
-			initSpriteSheet();
-
-
-			loadComplete = true;
-			// Init the widget
-			widget = initWidget();
-
-			if (shouldStart) {
-				play();
-			}
-		});
 
 	} // init()
-
-	function play() {
-
-		widget.play();
-
-		if (!mobile) {
-			audioclip.pause();
-			audioclip.currentTime = 0;
-			audioclip.muted = false;
-			audioclip.play();
-		}
-
-		console.log("playing intro.");
-	}
-
-	function playintro() {
-		
-		$(img).fadeOut(1000).promise().done( function() {
-			console.log("promise done.");
-
-			if (loadComplete && widget) {
-				play();
-			} else {
-				shouldStart = true;
-			}
-
-		});
-
-	} // playintro()
 
 	// resize with phaser.js
 	window.onresize = function() {
@@ -115,9 +44,9 @@ var VERILY = (function() {
 	}
 
 	function initWidget() {
-		var vebSpr = game.add.sprite(game.world.centerX,game.worldcenterY, 'veb');
+		var vebSpr = app.add.sprite(app.world.centerX, app.worldcenterY, 'sheet', 'intro1.png');
 		var veb = app.add.tween(vebSpr);
-		var veb_subSpr = game.add.sprite(game.world.centerX,game.worldcenterY, 'veb_sub');
+		var veb_subSpr = app.add.sprite(app.world.centerX, app.worldcenterY, 'sheet', 'intro1_sub.png');
 		var veb_sub = app.add.tween(veb_subSpr);
 
 		var spd = 1;
@@ -145,12 +74,11 @@ var VERILY = (function() {
 			veb_sub.delay(100)
 									.to({alpha:0}, 2200);
 			veb.onComplete.addOnce(phaseThree, this);
-			veb_start();
+			veb.start();
 			veb_sub.start();
 		}
 
 		function phaseThree() {
-			stage.enableMouseOver();
 			into.delay(100)
 									.to({alpha:1}, 2200);
 			kave.delay(100)
